@@ -1,0 +1,13 @@
+# maxOS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+
+# Build
+/target/
+/build/
+
+# Logs
+*.log
