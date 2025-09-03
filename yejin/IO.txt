@@ -1,1 +1,149 @@
-IO
+주인공 - 장식 구분 
+
+- 주인공
+
+어떤 대상에게서 읽어들일지, 쓸지 결정
+
+byte / char 단위로 읽고 쓰는 메소드
+
+- 장식
+
+InputStream, OutputStream, Reader, Writer를 생성자에서 받아들입니다.
+
+**다**양한 방식으로 읽고 쓰는 메소드를 가집니다.
+
+자바 IO는
+
+**스트림을 통해 데이터를 읽고 쓰는 것** 이고, 바이트냐 문자냐에 따라 사용하는 클래스가 달라집니다.
+
+# Stream
+
+[데이터 소스] > [입력 스트림] > [프로그램] > [출력 스트림] > [데이터 대상]
+
+1. **InputStream**: 바이트 단위 입력
+2. **OutputStream**: 바이트 단위 출력
+3. **Reader**: 문자 단위 입력
+4. **Writer**: 문자 단위 출력
+
+### **데이터 단위에 따른 분류**
+
+- **바이트 스트림 (Byte Stream)**: 1바이트 단위로 처리
+- **문자 스트림 (Character Stream)**: 2바이트(char) 단위로 처리
+
+## 바이트 스트림 (Byte Stream)
+
+- **용도**: 1바이트 단위로 처리, 모든 종류의 데이터 가능 (텍스트, 이미지, 음악, 영상)
+- **사용 예시**
+    1. **파일 처리**
+        - 이미지, 음악, 영상 파일 처리
+        - DataInputStream, DataOutputStream (숫자, 논리값 등 변환/저장)
+    2. **네트워크**
+        - 서버-클라이언트 통신, 웹 요청/응답
+        - 스트림을 통해 데이터를 주고받음
+
+---
+
+## 2️⃣ 문자 스트림 (Character Stream)
+
+- **용도**: 문자 단위 처리, 텍스트 파일 처리에 특화
+- **사용 예시**
+    1. **파일 처리**
+        - 텍스트 파일 읽기/쓰기 → 설정 파일, 로그, 데이터 저장 등
+        - FileReader, FileWriter, BufferedReader, BufferedWriter
+    2. **키보드/콘솔**
+        - 사용자 입력 받기 → Scanner, BufferedReader
+    3. **데이터 변환 및 저장**
+        - 문자 단위 저장 → FileWriter, BufferedWriter
+
+### **데이터 흐름에 따른 분류**
+
+- **입력 스트림 (Input Stream)**: 데이터를 읽어오는 스트림
+- **출력 스트림 (Output Stream)**: 데이터를 내보내는 스트림
+
+### 자바 I/O란?
+
+**컴퓨터 안팎으로 데이터를 주고받는 방법**
+
+- **Input (입력)** : 밖에서 안으로 들어오는 것 → 파일 읽기, 키보드 입력 등
+- **Output (출력)** : 안에서 밖으로 나가는 것 → 화면 출력, 파일 저장 등
+
+```
+import java.io.FileWriter;
+
+// FileWriter 클래스: 파일에 글자를 쓸 수 있게 해주는 클래스
+
+public class HelloIO {
+public static void main(String[] args) throws Exception {
+// FileWriter 객체 생성 (hello.txt라는 파일을 열거나 새로 만듦)
+FileWriter fw = new FileWriter("hello.txt");
+
+    // 파일에 글자 쓰기
+    fw.write("안녕 자바 I/O!");
+
+    // 파일을 닫아서(저장 완료) 리소스 정리
+    fw.close();
+    
+		}
+
+}
+```
+
+# Stream
+
+1. **바이트 기반** : 그림, 음악, 동영상 같은 *0과 1 데이터*
+    - `InputStream`, `OutputStream`
+2. **문자 기반** : 글자(텍스트)
+    - `Reader`, `Writer`
+
+```
+import java.io.FileInputStream;
+
+public class ReadFileExample {
+public static void main(String[] args) throws Exception {
+// FileInputStream: 파일에서 바이트(0과 1) 단위로 읽어오는 스트림
+FileInputStream fis = new FileInputStream("data.txt"); // "data.txt" 파일 열기    
+    
+    int ch; // 읽은 데이터를 저장할 변수 (정수형, -1이면 파일 끝)
+
+    // 파일의 끝(-1)까지 반복
+    while ((ch = fis.read()) != -1) {
+        // 읽은 값을 문자로 변환해서 출력
+        System.out.print((char) ch);
+    }
+
+    // 스트림 닫기 (리소스 정리)
+    fis.close();
+	}
+}
+```
+
+1. `"data.txt"` 파일을 **열고 읽기 모드**로 준비.
+2. `fis.read()` → 파일에서 **한 바이트씩** 읽어옴.
+    - 더 이상 읽을 게 없으면 `1` 반환.
+3. 읽은 값을 `(char)`로 변환해서 글자처럼 출력.
+4. 파일을 다 읽으면 `fis.close()`로 닫음.
+
+```
+import java.io.FileInputStream;
+
+public class ReadFileExample {
+public static void main(String[] args) throws Exception {
+// FileInputStream 객체 생성 -> "data.txt" 파일을 읽기 위해 열기
+FileInputStream fis = new FileInputStream("data.txt");   
+   
+    // 파일에서 읽은 데이터를 저장할 변수 (정수형, -1이면 파일의 끝을 의미)
+    int ch;
+
+    // 파일 끝(-1)을 만날 때까지 반복해서 한 글자씩 읽기
+    while ((ch = fis.read()) != -1) {
+        // 읽은 숫자 데이터를 문자(char)로 변환해서 출력
+        System.out.print((char) ch);
+    }
+
+    // 파일 닫기 (자원 해제)
+    fis.close();
+	}
+}
+```
+
+채팅 프로그램
