@@ -3,7 +3,7 @@ package library.common;
 import java.sql.*;
 
 public class DBUtil {
-    private static final String url = "jdbc:mysql://localhost:3306/library"; // DB 이름
+    private static final String url = "jdbc:mysql://localhost:3306/library";
     private static final String user = "root";
     private static final String password = "root1234";
 
